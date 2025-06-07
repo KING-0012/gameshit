@@ -29,10 +29,11 @@ class OllamaService:
                     full_context += f"{msg['role']}: {msg['content']}\n"
             full_context += f"user: {prompt}\nassistant:"
             
-            # Call Ollama
-            cmd = ["ollama", "run", self.model_name]
+            # Call Ollama - using shell=True to handle model name properly
+            cmd = f'ollama run "{self.model_name}"'
             process = subprocess.Popen(
                 cmd,
+                shell=True,
                 stdin=subprocess.PIPE,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
