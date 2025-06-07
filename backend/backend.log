@@ -9,3 +9,11 @@ INFO:werkzeug: * Restarting with stat
 WARNING:werkzeug: * Debugger is active!
 INFO:werkzeug: * Debugger PIN: 996-360-621
 INFO:werkzeug:127.0.0.1 - - [07/Jun/2025 15:16:55] "GET /api/health HTTP/1.1" 200 -
+INFO:werkzeug: * Detected change in '/app/backend/server.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 996-360-621
+INFO:werkzeug: * Detected change in '/app/backend/server.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 996-360-621
