@@ -1,38 +1,333 @@
-.App {
-    text-align: center;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles for the Strategic Ruler Game */
+
+.app {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
 }
 
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
+/* Character Creation Styles */
+.character-creation {
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-.App-header {
-    background-color: #0f0f10;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+.question-container {
+  margin: 20px 0;
 }
 
-.App-link {
-    color: #61dafb;
+.question-box {
+  background: linear-gradient(145deg, #f8f9ff, #e6e9ff);
+  border-radius: 15px;
+  padding: 30px;
+  border: 2px solid #e0e4ff;
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.1);
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+.question-text {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #4a5568;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.answers-summary {
+  background: #f7fafc;
+  border-radius: 12px;
+  padding: 20px;
+  border-left: 4px solid #9f7aea;
+}
+
+/* Main Game Styles */
+.main-game {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.game-header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+}
+
+.game-dashboard {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.resources-panel, .relationships-panel {
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.stat-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: linear-gradient(145deg, #f8f9ff, #e6e9ff);
+  border-radius: 10px;
+  border: 1px solid #e0e4ff;
+}
+
+.stat-label {
+  font-weight: 600;
+  color: #4a5568;
+}
+
+.stat-value {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #2d3748;
+}
+
+.relationship-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+}
+
+.relationship-bar {
+  flex: 1;
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.relationship-fill {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.relationship-fill.positive {
+  background: linear-gradient(90deg, #48bb78, #68d391);
+}
+
+.relationship-fill.negative {
+  background: linear-gradient(90deg, #f56565, #fc8181);
+}
+
+.actions-panel {
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.action-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.action-btn {
+  padding: 15px 20px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.action-btn.primary {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+}
+
+.action-btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+}
+
+.action-btn.secondary {
+  background: linear-gradient(145deg, #f8f9ff, #e6e9ff);
+  color: #4a5568;
+  border: 1px solid #e0e4ff;
+}
+
+.action-btn.secondary:hover {
+  background: linear-gradient(145deg, #e6e9ff, #d4d9ff);
+  transform: translateY(-1px);
+}
+
+.action-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Event Styles */
+.event-phase {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.event-container {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+}
+
+.event-description {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  padding: 30px;
+  text-align: center;
+}
+
+.choices-container {
+  padding: 30px;
+}
+
+.choices-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.choice-btn {
+  padding: 20px 25px;
+  background: linear-gradient(145deg, #f8f9ff, #e6e9ff);
+  border: 2px solid #e0e4ff;
+  border-radius: 12px;
+  text-align: left;
+  font-size: 1rem;
+  line-height: 1.5;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  color: #4a5568;
+  font-weight: 500;
+}
+
+.choice-btn:hover {
+  background: linear-gradient(145deg, #e6e9ff, #d4d9ff);
+  border-color: #9f7aea;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(159, 122, 234, 0.2);
+}
+
+.choice-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.consequences-container {
+  margin-top: 30px;
+  padding: 25px;
+  background: linear-gradient(145deg, #f0fff4, #e6fffa);
+  border-radius: 12px;
+  border: 2px solid #9ae6b4;
+}
+
+.consequences-text {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  border-left: 4px solid #48bb78;
+  line-height: 1.6;
+  color: #2d3748;
+}
+
+/* Processing Styles */
+.processing-phase {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .app {
+    padding: 10px;
+  }
+  
+  .container {
+    padding: 20px;
+  }
+  
+  .game-dashboard {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .action-buttons {
+    grid-template-columns: 1fr;
+  }
+  
+  .choices-list {
+    gap: 10px;
+  }
+  
+  .choice-btn {
+    padding: 15px 20px;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.question-box,
+.event-container,
+.consequences-container {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #5a67d8, #6b46c1);
 }
