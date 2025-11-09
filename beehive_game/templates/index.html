@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beehive Sandbox - Realistic Colony Simulation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a1a;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        #game-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        canvas {
+            display: block;
+            cursor: grab;
+        }
+
+        canvas:active {
+            cursor: grabbing;
+        }
+
+        #ui-panel {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #FFD700;
+            min-width: 280px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        #ui-panel h2 {
+            color: #FFD700;
+            margin-bottom: 15px;
+            font-size: 20px;
+            border-bottom: 2px solid #FFD700;
+            padding-bottom: 8px;
+        }
+
+        .stat-group {
+            margin-bottom: 15px;
+        }
+
+        .stat-group h3 {
+            color: #FFA500;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            font-size: 13px;
+        }
+
+        .stat-label {
+            color: #aaa;
+        }
+
+        .stat-value {
+            color: #fff;
+            font-weight: bold;
+        }
+
+        #controls-panel {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 15px;
+            border-radius: 12px;
+            border: 2px solid #4CAF50;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        #controls-panel h3 {
+            color: #4CAF50;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .control-item {
+            font-size: 12px;
+            padding: 3px 0;
+            color: #ccc;
+        }
+
+        .control-key {
+            display: inline-block;
+            background: #333;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-right: 8px;
+            color: #FFD700;
+            font-weight: bold;
+        }
+
+        #faction-list {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 15px;
+            border-radius: 12px;
+            border: 2px solid #FF69B4;
+            max-width: 250px;
+            max-height: 400px;
+            overflow-y: auto;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        #faction-list h3 {
+            color: #FF69B4;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .faction-item {
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            font-size: 12px;
+        }
+
+        .faction-color {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        #loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            color: #FFD700;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <canvas id="canvas"></canvas>
+        
+        <div id="ui-panel">
+            <h2>🐝 Colony Statistics</h2>
+            
+            <div class="stat-group">
+                <h3>Resources (Total)</h3>
+                <div class="stat-item">
+                    <span class="stat-label">🌼 Pollen:</span>
+                    <span class="stat-value" id="stat-pollen">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">💧 Nectar:</span>
+                    <span class="stat-value" id="stat-nectar">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">🍯 Honey:</span>
+                    <span class="stat-value" id="stat-honey">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">🌳 Propolis:</span>
+                    <span class="stat-value" id="stat-propolis">0</span>
+                </div>
+            </div>
+
+            <div class="stat-group">
+                <h3>Population (Total)</h3>
+                <div class="stat-item">
+                    <span class="stat-label">🏰 Hives:</span>
+                    <span class="stat-value" id="stat-hives">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">👑 Queens:</span>
+                    <span class="stat-value" id="stat-queens">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">🐝 Workers:</span>
+                    <span class="stat-value" id="stat-workers">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">🦟 Drones:</span>
+                    <span class="stat-value" id="stat-drones">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">🥚 Larvae:</span>
+                    <span class="stat-value" id="stat-larvae">0</span>
+                </div>
+            </div>
+
+            <div class="stat-group">
+                <h3>Camera</h3>
+                <div class="stat-item">
+                    <span class="stat-label">Zoom:</span>
+                    <span class="stat-value" id="stat-zoom">1.0x</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Position:</span>
+                    <span class="stat-value" id="stat-position">0, 0</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="controls-panel">
+            <h3>⌨️ Controls</h3>
+            <div class="control-item"><span class="control-key">WASD</span> Move camera</div>
+            <div class="control-item"><span class="control-key">Arrow Keys</span> Move camera</div>
+            <div class="control-item"><span class="control-key">Mouse Drag</span> Pan view</div>
+            <div class="control-item"><span class="control-key">Scroll</span> Zoom in/out</div>
+            <div class="control-item"><span class="control-key">+/-</span> Zoom in/out</div>
+            <div class="control-item"><span class="control-key">Space</span> Pause/Resume</div>
+            <div class="control-item"><span class="control-key">R</span> Reset camera</div>
+        </div>
+
+        <div id="faction-list">
+            <h3>🏰 Factions</h3>
+            <div id="faction-container"></div>
+        </div>
+
+        <div id="loading">Loading Beehive World...</div>
+    </div>
+
+    <script src="{{ url_for('static', filename='game.js') }}"></script>
+</body>
+</html>
